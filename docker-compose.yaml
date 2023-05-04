@@ -1,0 +1,83 @@
+version: '3.3'
+
+##### services #####
+services:
+
+  ### clients ###  
+
+  #raven#
+  ravendb:
+    image: ravendb/ravendb
+    environment:
+      - RAVEN_Setup_Mode=None
+      - RAVEN_License_Eula_Accepted=true
+    ports:
+      - 8080:8080
+      - 38888:38888
+    volumes:
+      - ./datasets:/home/jovyan/datasets
+
+  #drill#
+  drill:
+    image: apache/drill:1.19.0
+    hostname: drill
+    command: /bin/bash
+    tty: true
+    ports:
+    - "8047:8047"
+    - "31010:31010"
+    ulimits:
+      memlock: -1
+      nproc: 32768
+      nofile: 100000
+    volumes: 
+      - ./datasets:/home/jovyan/datasets
+
+  # #jupyter#
+  # jupyter:
+  #   image: ist769/jupyter_pyspark:20210924b 
+  #   hostname: jupyter
+  #   environment:
+  #     - GRANT_SUDO=yes
+  #     - JUPYTER_ENABLE_LAB=yes
+  #     - JUPYTER_TOKEN=SU2orange!       
+  #   ports:
+  #     - "8888:8888"
+  #   volumes: 
+  #     - ./work:/home/jovyan/work
+  #     - ./datasets:/home/jovyan/datasets
+
+##### volumes #####
+# volumes:
+#   cassandra-data:
+#     driver: local
+#   elasticsearch-data:
+#     driver: local
+#   minio-data:
+#     driver: local
+#   mongo-data:
+#     driver: local
+#   mssql-data:
+#     driver: local
+#   neo4j-data:
+#     driver: local
+#   redis-data:
+#     driver: local
+#   metastore-postgresql:
+#     driver: local
+#   hdfs-datanode:
+#     driver: local
+#   hdfs-namenode:
+#     driver: local
+
+
+
+# ##### networks #####
+# networks:
+#   default:
+#     name: local
+#     driver: bridge
+#     ipam:
+#       config:
+#         - subnet: 10.10.10.0/24
+#           gateway: 10.10.10.1
