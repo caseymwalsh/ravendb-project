@@ -1,4 +1,4 @@
-# ravendb-bookshelf
+# ravendb-project
 IST769 Final Project
 
 RavenDB Studio Instructions:<br>
